@@ -1,0 +1,171 @@
+// Sistem Cuti Guru — Database Schema
+// Tech: PostgreSQL + Prisma ORM
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────
+// TABEL PENGGUNA
+// ─────────────────────────────────────
+
+model User {
+  id         String   @id @default(cuid())
+  nama       String
+  email      String   @unique
+  password   String
+  nip        String?  @unique
+  role       Role     @default(GURU)
+  mapel      String?  // khusus guru
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // relasi
+  kuota           KuotaCuti?
+  pengajuan       PengajuanCuti[] @relation("GuruPengajuan")
+  approvals       PengajuanCuti[] @relation("KsApproval")
+  jadwal          JadwalMengajar[]
+
+  @@map("users")
+}
+
+enum Role {
+  GURU
+  KEPALA_SEKOLAH
+  ADMIN
+}
+
+// ─────────────────────────────────────
+// KUOTA CUTI
+// ─────────────────────────────────────
+
+model KuotaCuti {
+  id          String  @id @default(cuid())
+  userId      String  @unique
+  tahun       Int
+  totalKuota  Int     @default(12)
+  terpakai    Int     @default(0)
+  pending     Int     @default(0)
+
+  user        User    @relation(fields: [userId], references: [id])
+
+  @@map("kuota_cuti")
+}
+
+// ─────────────────────────────────────
+// PENGAJUAN CUTI
+// ─────────────────────────────────────
+
+model PengajuanCuti {
+  id              String        @id @default(cuid())
+  guruId          String
+  jenisCuti       JenisCuti
+  tanggalMulai    DateTime
+  tanggalSelesai  DateTime
+  jumlahHari      Int
+  alasan          String
+  penggantiNama   String?
+  lampiranUrl     String?
+  status          StatusCuti    @default(PENDING)
+  catatanKs       String?
+  approvedById    String?
+  approvedAt      DateTime?
+  suratUrl        String?       // path PDF yang digenerate
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // relasi
+  guru            User          @relation("GuruPengajuan", fields: [guruId], references: [id])
+  approvedBy      User?         @relation("KsApproval", fields: [approvedById], references: [id])
+  notifikasi      Notifikasi[]
+  logEksekusi     LogEksekusi[]
+
+  @@map("pengajuan_cuti")
+}
+
+enum JenisCuti {
+  TAHUNAN
+  SAKIT
+  MELAHIRKAN
+  KELUARGA
+  BESAR
+}
+
+enum StatusCuti {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+// ─────────────────────────────────────
+// JADWAL MENGAJAR
+// ─────────────────────────────────────
+
+model JadwalMengajar {
+  id          String        @id @default(cuid())
+  guruId      String
+  tanggal     DateTime
+  jam         String        // contoh: "08:00-09:30"
+  kelas       String
+  mataPelajaran String
+  status      StatusJadwal  @default(AKTIF)
+
+  guru        User          @relation(fields: [guruId], references: [id])
+
+  @@map("jadwal_mengajar")
+}
+
+enum StatusJadwal {
+  AKTIF
+  CUTI
+  DIGANTI
+}
+
+// ─────────────────────────────────────
+// NOTIFIKASI
+// ─────────────────────────────────────
+
+model Notifikasi {
+  id            String    @id @default(cuid())
+  userId        String
+  pengajuanId   String?
+  judul         String
+  pesan         String
+  dibaca        Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+
+  pengajuan     PengajuanCuti? @relation(fields: [pengajuanId], references: [id])
+
+  @@map("notifikasi")
+}
+
+// ─────────────────────────────────────
+// LOG EKSEKUSI WORKFLOW
+// ─────────────────────────────────────
+
+model LogEksekusi {
+  id            String      @id @default(cuid())
+  pengajuanId   String?
+  namaFlow      String      // contoh: "flow-pengajuan", "flow-approval"
+  namaStep      String      // contoh: "validasi", "update-kuota", "generate-surat"
+  status        StatusLog
+  pesan         String?
+  durasi        Int?        // milidetik
+  createdAt     DateTime    @default(now())
+
+  pengajuan     PengajuanCuti? @relation(fields: [pengajuanId], references: [id])
+
+  @@map("log_eksekusi")
+}
+
+enum StatusLog {
+  SUCCESS
+  FAILED
+  INFO
+}
