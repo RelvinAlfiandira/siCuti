@@ -70,7 +70,7 @@ export default function LoginPage() {
           }}>
             <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: '#3b82f6' }}></div>
           </div>
-          <h1 style={{ fontSize: '18px', fontWeight: '600', margin: '0 0 4px' }}>SiCuti</h1>
+          <h1 style={{ fontSize: '18px', fontWeight: '600', margin: '0 0 4px' }}>Management Cuti</h1>
           <p style={{ fontSize: '13px', color: '#6b7280', margin: 0 }}>Sistem Pengajuan Cuti Guru</p>
         </div>
 

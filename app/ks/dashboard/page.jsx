@@ -181,7 +181,7 @@ export default function KsDashboard() {
           <div style={{ width: '24px', height: '24px', background: '#dbeafe', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#2563eb' }}></div>
           </div>
-          <span style={{ fontSize: '14px', fontWeight: '600', color: '#111827' }}>SiCuti</span>
+          <span style={{ fontSize: '14px', fontWeight: '600', color: '#111827' }}>Management Cuti</span>
           <span style={{ fontSize: '11px', padding: '2px 8px', background: '#fef3c7', color: '#d97706', borderRadius: '20px', fontWeight: '500' }}>Kepala Sekolah</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

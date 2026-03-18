@@ -74,7 +74,7 @@ export default function RiwayatPage() {
           <div style={{ width: '24px', height: '24px', background: '#dbeafe', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#2563eb' }}></div>
           </div>
-          <span style={{ fontSize: '14px', fontWeight: '600', color: '#111827' }}>SiCuti</span>
+          <span style={{ fontSize: '14px', fontWeight: '600', color: '#111827' }}>Management Cuti</span>
         </div>
         <div style={{ display: 'flex', gap: '4px' }}>
           {['Beranda', 'Ajukan Cuti', 'Riwayat'].map((item, i) => (
