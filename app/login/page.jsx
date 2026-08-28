@@ -70,7 +70,7 @@ export default function LoginPage() {
           }}>
             <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: '#3b82f6' }}></div>
           </div>
-          <h1 style={{ fontSize: '18px', fontWeight: '600', margin: '0 0 4px' }}>Management Cuti</h1>
+          <h1 style={{ fontSize: '18px', fontWeight: '600', color: '#1f2937', margin: '0 0 4px' }}>Management Cuti</h1>
           <p style={{ fontSize: '13px', color: '#6b7280', margin: 0 }}>Sistem Pengajuan Cuti Guru</p>
         </div>
 
@@ -92,6 +92,7 @@ export default function LoginPage() {
                 border: '0.5px solid #d1d5db',
                 borderRadius: '8px',
                 fontSize: '13px',
+                color: '#374151',
                 outline: 'none',
                 boxSizing: 'border-box',
               }}
@@ -114,6 +115,7 @@ export default function LoginPage() {
                 border: '0.5px solid #d1d5db',
                 borderRadius: '8px',
                 fontSize: '13px',
+                color: '#374151',
                 outline: 'none',
                 boxSizing: 'border-box',
               }}
@@ -153,21 +155,6 @@ export default function LoginPage() {
             {loading ? 'Memproses...' : 'Masuk'}
           </button>
         </form>
-
-        {/* Info akun test */}
-        <div style={{
-          marginTop: '20px',
-          padding: '12px',
-          background: '#f9fafb',
-          borderRadius: '8px',
-          fontSize: '11px',
-          color: '#6b7280',
-        }}>
-          <div style={{ fontWeight: '500', marginBottom: '6px', color: '#374151' }}>Akun untuk testing:</div>
-          <div>Guru: budi@sekolah.sch.id</div>
-          <div>KS: ks@sekolah.sch.id</div>
-          <div style={{ marginTop: '4px' }}>Password: <strong>password123</strong></div>
-        </div>
       </div>
     </div>
   )
